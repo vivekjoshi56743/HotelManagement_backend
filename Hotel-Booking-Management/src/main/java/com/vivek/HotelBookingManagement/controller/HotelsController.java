@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.vivek.HotelBookingManagement.service.HotelsService;
 
 @RestController
 @RequestMapping("/hotels")
+@CrossOrigin(origins="http://localhost:3000")
 public class HotelsController {
 
 	// private Logger logger=LoggerFactory.getLogger(this.getClass());
@@ -41,8 +43,11 @@ public class HotelsController {
 	
 	@PostMapping
 	public ResponseEntity<String> createHotel(@RequestBody Hotels hotel) {
-
-		return service.create(hotel);
+		
+		ResponseEntity<String> res = service.create(hotel);
+		
+		
+		return res;
 	}
 
 	@DeleteMapping("/remove/{hotel_id}")

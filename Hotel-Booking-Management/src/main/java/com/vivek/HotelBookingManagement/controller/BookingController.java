@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.vivek.HotelBookingManagement.dao.Booking;
 import com.vivek.HotelBookingManagement.service.BookingService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class BookingController {
 	
 	@Autowired
@@ -23,26 +25,29 @@ public class BookingController {
 	
 	@GetMapping("/bookings/user/{user_id}")
 	public List<Booking> gebookingByUserId(@PathVariable Long user_id){
+		
 		return  service.getbookingbyuserid(user_id);
 		
 	}
 	
-	@GetMapping("/bookings")
+	@GetMapping("/bookings/all")
 	public List<Booking> getAllBookings(){
 		return service.getAllBookings();
 	}
-	@GetMapping("/bookings/{booking_id}")
+	@GetMapping("/bookings/id/{booking_id}")
 	public Optional<Booking> getBookingByBookingId(@PathVariable Long booking_id){
 		return service.getBookingByBookingId(booking_id);
 	}
 	
 	@PostMapping("/bookings/add")
 	public ResponseEntity<String> addBooking(@RequestBody Booking booking){
+		
 		return service.addbooking(booking);
 	}
 	
 	@DeleteMapping("/bookings/delete/{booking_id}")
 	public ResponseEntity<Booking> deleteBooking(@PathVariable Long booking_id){
+		System.out.println(booking_id);
 		return service.deletebooking(booking_id);
 	}
 	

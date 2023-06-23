@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 
+import com.vivek.HotelBookingManagement.controller.UserRequest;
 import com.vivek.HotelBookingManagement.dao.User;
 
 public interface UserService {
@@ -16,5 +17,7 @@ public interface UserService {
 	ResponseEntity<User> adduser(User user);
 
 	ResponseEntity<String> deleteuser(Long user_id);
+
+	ResponseEntity<User> login(UserRequest user);
 
 }

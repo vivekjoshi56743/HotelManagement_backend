@@ -32,7 +32,7 @@ public class HotelsServiceImpl implements HotelsService {
 		try {
 			Hotels savedHotel = hotelsrepo.save(hotel);
 			if (savedHotel != null) {
-				return ResponseEntity.ok("Hotel created successfully");
+				return ResponseEntity.ok("hotel sucess created");
 			} else {
 				return new ResponseEntity<>("not created", HttpStatus.BAD_REQUEST);
 			}
@@ -48,9 +48,9 @@ public class HotelsServiceImpl implements HotelsService {
 
 		if (hotelsrepo.existsById(hotel_id)) {
 			hotelsrepo.deleteById(hotel_id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return ResponseEntity.ok().build();
 		} else {
-			return new ResponseEntity<>("id not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("id not found", HttpStatus.ALREADY_REPORTED);
 		}
 
 	}

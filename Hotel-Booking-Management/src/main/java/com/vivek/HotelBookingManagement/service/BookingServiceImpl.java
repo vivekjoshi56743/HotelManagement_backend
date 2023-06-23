@@ -42,6 +42,12 @@ public class BookingServiceImpl implements BookingService {
 
 		LocalDate startDate = booking.getStartDate();
 		LocalDate endDate = booking.getEndDate();
+		if(startDate.isBefore(LocalDate.now() )) {
+			return  ResponseEntity.badRequest().body("Start Date should not be less than Current date: "+LocalDate.now());
+		}
+		if(startDate.isAfter(endDate)) {
+		 return ResponseEntity.badRequest().body("End Date Cannot be Less than Start Date");
+		}
 		Room room = booking.getRoom();
 
 		List<Booking> existingBookings = bookingRepo.findByRoomAndStartDateLessThanEqualAndEndDateGreaterThanEqual(room,
@@ -51,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
 		}
 		try {
 			Booking saved = bookingRepo.save(booking);
-			return ResponseEntity.ok().body("booking Completed with Bookingid "+ saved.getBooking_id()+" for user with userId= "+saved.getUser().getUserId());
+			return ResponseEntity.ok().body("Booking Completed with Bookingid: "+ saved.getBooking_id()+" for user");
 		} catch (Exception e) {
 			return ResponseEntity.unprocessableEntity().build();
 		}
@@ -60,10 +66,15 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public ResponseEntity<Booking> deletebooking(Long booking_id) {
 		// TODO Auto-generated method stub
+		Optional<Booking> res = bookingRepo.findById(booking_id);
+		if(res.isEmpty()) {
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		
 		try {
-			bookingRepo.findById(booking_id);
+			
 			bookingRepo.deleteById(booking_id);
-			return ResponseEntity.noContent().build();
+			return ResponseEntity.ok().build();
 		} catch (Exception e) {
 			// TODO: handle exception
 			return ResponseEntity.unprocessableEntity().build();
